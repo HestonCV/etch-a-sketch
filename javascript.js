@@ -1,4 +1,4 @@
-
+let columns = document.querySelectorAll(".column");
 const body = document.querySelector("body");
 body.style.height = "100vh";
 body.style.margin = 0;
@@ -53,8 +53,9 @@ function createGrid(gridLength)
             row.appendChild(column);
         }
     }
+    columns = document.querySelectorAll(".column");
+    rows = document.querySelectorAll(".row");
 }
-
 
 function resizeSquare()
 {
@@ -62,26 +63,39 @@ function resizeSquare()
     container.style.width = window.getComputedStyle(container).getPropertyValue("height");
 }
 
-//let gridLength = prompt("Enter a grid length");
+function destroyElements()
+{
+    rows = document.querySelectorAll(".row");
+    rows.forEach(row => {
+        row.remove();
+    });
+}
 
 createGrid(100);
 resizeSquare();
 
 window.addEventListener("resize", resizeSquare);
 
-const columns = document.querySelectorAll(".column");
+
 columns.forEach(column => {
     column.addEventListener("mouseover", function (e)
     {
+        console.log("hover");
         e.target.style.backgroundColor = "black";
     });
 });
 
 resetButton = document.querySelector(".reset-button");
 resetButton.addEventListener("click", function (){
-    const columns = document.querySelectorAll(".column");
     columns.forEach(column => {
         column.style.backgroundColor = "white";
-    })
+    });
+});
+
+changeGridButton = document.querySelector(".grid-button");
+changeGridButton.addEventListener("click", function () {
+    gridLength = parseInt(prompt("Enter the desired grid length."));
+    destroyElements();
+    createGrid(gridLength);
 });
 
