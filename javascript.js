@@ -31,7 +31,13 @@ function addStyle(element)
     }
 }
 
-function createGrid(gridLength)
+function createEventListeners(colorMode)
+{
+    columns = document.querySelectorAll(".column");
+    
+}
+
+function createGrid(gridLength, colorMode)
 {
     //keep gidlength less than 100 to prevent lag
     gridLength = (gridLength > 100) ? 100 : gridLength;
@@ -54,7 +60,12 @@ function createGrid(gridLength)
         }
     }
     columns = document.querySelectorAll(".column");
-    rows = document.querySelectorAll(".row");
+    columns.forEach(column => {
+        column.addEventListener("mouseover", function (e)
+        {
+            e.target.style.backgroundColor = `${colorMode}`;
+        });
+    });
 }
 
 function resizeSquare()
@@ -71,19 +82,11 @@ function destroyElements()
     });
 }
 
-createGrid(100);
+let colorMode = "red";
+createGrid(100, "black");
 resizeSquare();
 
 window.addEventListener("resize", resizeSquare);
-
-
-columns.forEach(column => {
-    column.addEventListener("mouseover", function (e)
-    {
-        console.log("hover");
-        e.target.style.backgroundColor = "black";
-    });
-});
 
 resetButton = document.querySelector(".reset-button");
 resetButton.addEventListener("click", function (){
@@ -95,7 +98,8 @@ resetButton.addEventListener("click", function (){
 changeGridButton = document.querySelector(".grid-button");
 changeGridButton.addEventListener("click", function () {
     gridLength = parseInt(prompt("Enter the desired grid length."));
+    colorMode = prompt("Enter the desired pen color.");
     destroyElements();
-    createGrid(gridLength);
+    createGrid(gridLength, `${colorMode}`);
 });
 
