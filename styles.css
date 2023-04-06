@@ -1,0 +1,28 @@
+
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: deepskyblue;
+    padding: 10px;
+    overflow: hidden;
+}
+
+.container {
+    margin: auto;
+    margin-bottom: 3%;
+}
+.buttons {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.buttons button {
+    height: 50px;
+    width: 100px;
+    margin: 0 5%;
+    padding: 0;
+}
