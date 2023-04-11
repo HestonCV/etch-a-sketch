@@ -1,43 +1,14 @@
 let columns = document.querySelectorAll(".column");
 const body = document.querySelector("body");
-body.style.height = "100vh";
-body.style.margin = 0;
-const container = document.createElement("div");
-container.classList.add("container");
-addStyle(container);
+const container = document.querySelector(".container")
+let drawMode = "hover";
+let rainbowMode = false;
+let colorMode = "black";
+let gridMode = 100;
+let colorCycle = 0;
+let gridCycle = 0;
 
-body.appendChild(container);
-
-function addStyle(element)
-{
-    if(element.classList.contains("container"))
-    {
-        element.style.display = "flex";
-        element.style.flexDirection = "column";
-        element.style.height = "100%";
-        element.style.flex = 9;
-    }
-    else if(element.classList.contains("row"))
-    {
-        element.style.display = "flex";
-        element.style.flex = 1;
-    }
-    else
-    {
-        element.style.display = "flex";
-        element.style.flex = "1";
-        element.style.backgroundColor = "white";
-        element.style.border = "0px solid black";
-    }
-}
-
-function createEventListeners(colorMode)
-{
-    columns = document.querySelectorAll(".column");
-    
-}
-
-function createGrid(gridLength, colorMode)
+function createGrid(gridLength)
 {
     //keep gidlength less than 100 to prevent lag
     gridLength = (gridLength > 100) ? 100 : gridLength;
@@ -47,7 +18,6 @@ function createGrid(gridLength, colorMode)
         //create row add it to container
         const row = document.createElement("div");
         row.classList.add("row");
-        addStyle(row);
         container.appendChild(row);
 
         //create and add each column cell to the row
@@ -55,7 +25,6 @@ function createGrid(gridLength, colorMode)
         {
             const column = document.createElement("div");
             column.classList.add("column");
-            addStyle(column);
             row.appendChild(column);
         }
     }
@@ -63,7 +32,32 @@ function createGrid(gridLength, colorMode)
     columns.forEach(column => {
         column.addEventListener("mouseover", function (e)
         {
-            e.target.style.backgroundColor = `${colorMode}`;
+            
+            if(drawMode === "hover")
+            {
+                if(rainbowMode)
+                {
+                    cycleColor();
+                    const colorDisplay = document.querySelector(".color-display");
+                    colorDisplay.style.backgroundColor = colorMode;
+                }
+                e.target.style.backgroundColor = `${colorMode}`;
+            }
+            return;
+        });
+        column.addEventListener("click", function (e)
+        {
+            if(drawMode === "click")
+            {
+                if(rainbowMode)
+                {
+                    cycleColor();
+                    const colorDisplay = document.querySelector(".color-display");
+                    colorDisplay.style.backgroundColor = colorMode;
+                }
+                e.target.style.backgroundColor = `${colorMode}`;
+            }
+            return;
         });
     });
 }
@@ -82,8 +76,80 @@ function destroyElements()
     });
 }
 
-let colorMode = "red";
-createGrid(100, "black");
+function cycleColor()
+{
+    colorCycle++;
+    colorCycle = (colorCycle > 9) ? 0 : colorCycle;
+    if(rainbowMode && colorCycle === 0 || (rainbowMode && colorCycle === 9))
+    {
+        colorCycle++;
+    }
+    switch(colorCycle)
+    {
+        case 0:
+            colorMode = "black";
+            break;
+        case 1:
+            colorMode = "deepskyblue";
+            break;
+        case 2:
+            colorMode = "blue";
+            break;
+        case 3:
+            colorMode = "red";
+            break;
+        case 4:
+            colorMode = "#90EE90";
+            break;
+        case 5:
+            colorMode = "green";
+            break;
+        case 6:
+            colorMode = "yellow"
+            break;
+        case 7:
+            colorMode = "pink";
+            break;
+        case 8:
+            colorMode = "magenta";
+            break;
+        case 9:
+            colorMode = "brown";
+            break;
+    }
+}
+
+function cycleGrid()
+{
+    const sizeDisplay = document.querySelector(".size-display");
+    gridCycle++;
+    gridCycle = (gridCycle > 3) ? 0 : gridCycle;
+    switch(gridCycle)
+    {
+        case 0:
+            sizeDisplay.style.height = "10px";
+            sizeDisplay.style.width = "10px";
+            gridMode = 100;
+            break;
+        case 1:
+            sizeDisplay.style.height = "20px";
+            sizeDisplay.style.width = "20px";
+            gridMode = 50;
+            break;
+        case 2:
+            sizeDisplay.style.height = "30px";
+            sizeDisplay.style.width = "30px";
+            gridMode = 25;
+            break;
+        case 3:
+            sizeDisplay.style.height = "40px";
+            sizeDisplay.style.width = "40px";
+            gridMode = 10;
+            break;
+    }
+}
+
+createGrid(gridMode);
 resizeSquare();
 
 window.addEventListener("resize", resizeSquare);
@@ -95,11 +161,50 @@ resetButton.addEventListener("click", function (){
     });
 });
 
-changeGridButton = document.querySelector(".grid-button");
-changeGridButton.addEventListener("click", function () {
-    gridLength = parseInt(prompt("Enter the desired grid length."));
-    colorMode = prompt("Enter the desired pen color.");
-    destroyElements();
-    createGrid(gridLength, `${colorMode}`);
+const colorButton = document.querySelector(".color-button");
+colorButton.addEventListener("click", function () {
+    cycleColor();
+    const colorDisplay = document.querySelector(".color-display");
+    colorDisplay.style.backgroundColor = colorMode;
 });
 
+const gridButton = document.querySelector(".grid-button");
+gridButton.addEventListener("click", function () {
+    cycleGrid();
+    destroyElements();
+    createGrid(gridMode);
+});
+
+const hoverButton = document.querySelector(".hover-button");
+hoverButton.addEventListener("click", function () {
+    hoverButton.textContent = (drawMode === "hover") ? "Click" : "Hover";
+    drawMode = (drawMode === "hover") ? "click" : "hover";
+});
+
+const rainbowButton = document.querySelector(".rainbow-button");
+rainbowButton.addEventListener("click", function () {
+    const rainbowBackground = document.querySelectorAll(".rb-background");
+    const hoverButton = document.querySelector(".hover-button");
+    const colorButton = document.querySelector(".color-button");
+    rainbowMode = (rainbowMode) ? false : true;
+    if(rainbowMode)
+    {
+        console.log("test");
+        hoverButton.style.margin = "0 2px";
+        colorButton.style.margin = "0 2px";
+
+        rainbowBackground.forEach(bg => {
+            bg.style.padding = "2px";
+        });
+    }
+    else
+    {
+        hoverButton.style.margin = "0px";
+        colorButton.style.margin = "0px";
+        rainbowBackground.forEach(bg => {
+            bg.style.padding = 0;
+        });
+    }
+
+
+});
