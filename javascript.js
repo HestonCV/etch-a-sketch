@@ -67,7 +67,7 @@ function createColorPalette() {
     colorPalette.innerHTML = "";
 
     const colors = [
-        "black", "deepskyblue", "blue", "red", "#90EE90", "green", "yellow", "pink", "magenta", "brown"
+        "black", "white", "deepskyblue", "blue", "red", "#90EE90", "green", "yellow", "pink", "magenta", "brown"
     ];
 
     colors.forEach(color => {
@@ -113,41 +113,44 @@ function destroyElements()
 function cycleColor()
 {
     colorCycle++;
-    if(rainbowMode && colorCycle === 0 || (rainbowMode && colorCycle === 9))
+    if(rainbowMode && colorCycle === 0 || (rainbowMode && colorCycle === 9) || (rainbowMode && colorCycle === 1))
     {
         colorCycle++;
     }
-    colorCycle = (colorCycle > 9) ? 0 : colorCycle;
+    colorCycle = (colorCycle > 10) ? 0 : colorCycle;
     switch(colorCycle)
     {
         case 0:
             colorMode = "black";
             break;
         case 1:
-            colorMode = "deepskyblue";
+            colorMode = "white";
             break;
         case 2:
-            colorMode = "blue";
+            colorMode = "deepskyblue";
             break;
         case 3:
-            colorMode = "red";
+            colorMode = "blue";
             break;
         case 4:
-            colorMode = "#90EE90";
+            colorMode = "red";
             break;
         case 5:
-            colorMode = "green";
+            colorMode = "#90EE90";
             break;
         case 6:
-            colorMode = "yellow"
+            colorMode = "green";
             break;
         case 7:
-            colorMode = "pink";
+            colorMode = "yellow"
             break;
         case 8:
-            colorMode = "magenta";
+            colorMode = "pink";
             break;
         case 9:
+            colorMode = "magenta";
+            break;
+        case 10:
             colorMode = "brown";
             break;
     }
