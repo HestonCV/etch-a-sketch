@@ -9,12 +9,18 @@ body {
 .header {
     padding: 15px;
     text-align: center;
-    background-color: rgb(190, 239, 255);
+    background-color: rgb(246, 245, 245);
+    text-shadow: 2px 2px black;
+}
+
+.title
+{
+    background: white;
+    padding: 5px;
 }
 
 .header span {
-    color: rgb(239, 239, 239);
-    font-size: calc(36px + .8rem);
+    font-size: calc(36px + 2rem);
     font-weight: 600;
 }
 
@@ -25,7 +31,7 @@ body {
     align-items: center;
     display: flex;
     flex: 15;
-    background-color: rgb(255, 238, 255);
+    background-color: rgb(240, 240, 240);
 
 }
 
@@ -35,12 +41,15 @@ body {
     flex-shrink: 0;
     background-color: gray;
     height: 95%;
+    border: 1px solid black;
+    box-shadow: 1px 1px 2px black;
+    border-radius: 2px;
 }
 
 /* buttons section */
 
 button {
-    background-color: rgb(197, 241, 255);
+    background-color: rgb(233, 250, 255);
     border-radius: 5px;
     font-size: 25px;
     height: 75px;
@@ -90,11 +99,23 @@ button:active {
 }
 
 .color-display {
-    height: 21px;
+    height: 30px;
     border-radius: 100%;
-    width: 21px;
+    width: 30px;
     background-color: black;
 }
+
+.color-display:hover {
+    transform: scale(1.1);
+}
+
+.color-element:hover {
+    transform: scale(1.2);
+    border: 1px solid white;
+}
+
+
+
 /* end buttons section */
 
 
@@ -106,22 +127,22 @@ button:active {
 .column {
     display: flex;
     flex: 1;
-    background-color: white;
+    background-color: rgb(255, 255, 255);
     border: 0px solid black;
 }
 
 /* end content section */
 
 .footer {
-    padding: 8px;
-    padding-bottom: 10px;
-    background-color: rgb(121, 222, 255);
+    padding: 0;
+    padding-bottom: 8px;
+    background-color: rgb(255, 255, 255);
 
     text-align: center;
 }
 
 .footer span {
-    color: rgb(239, 239, 239);
+    color: rgb(193, 193, 193);
     font-size: calc(12px + .4rem);
 }
 

@@ -62,6 +62,40 @@ function createGrid(gridLength)
     });
 }
 
+function createColorPalette() {
+    const colorPalette = document.querySelector(".color-palette");
+    colorPalette.innerHTML = "";
+
+    const colors = [
+        "black", "deepskyblue", "blue", "red", "#90EE90", "green", "yellow", "pink", "magenta", "brown"
+    ];
+
+    colors.forEach(color => {
+        const colorElement = document.createElement("div");
+        colorElement.classList.add("color-element");
+        colorElement.style.backgroundColor = color;
+        colorElement.style.width = "20px";
+        colorElement.style.height = "20px";
+        colorElement.style.borderRadius = "100%";
+
+        colorElement.addEventListener("click", function () {
+            colorMode = color;
+            const colorDisplay = document.querySelector(".color-display");
+            colorDisplay.style.backgroundColor = colorMode;
+        });
+
+        colorPalette.appendChild(colorElement);
+    });
+}
+
+function destroyColorPalette()
+{
+    const colorElements = document.querySelectorAll(".color-element");
+    colorElements.forEach(colorElement => {
+        colorElement.remove();
+    });
+}
+
 function resizeSquare()
 {
     const container = document.querySelector(".container");
@@ -79,11 +113,11 @@ function destroyElements()
 function cycleColor()
 {
     colorCycle++;
-    colorCycle = (colorCycle > 9) ? 0 : colorCycle;
     if(rainbowMode && colorCycle === 0 || (rainbowMode && colorCycle === 9))
     {
         colorCycle++;
     }
+    colorCycle = (colorCycle > 9) ? 0 : colorCycle;
     switch(colorCycle)
     {
         case 0:
@@ -179,6 +213,18 @@ const hoverButton = document.querySelector(".hover-button");
 hoverButton.addEventListener("click", function () {
     hoverButton.textContent = (drawMode === "hover") ? "Click" : "Hover";
     drawMode = (drawMode === "hover") ? "click" : "hover";
+});
+
+const displayButton = document.querySelector(".color-display");
+displayButton.addEventListener("click", function () {
+    const colorElements = document.querySelectorAll(".color-element");
+    console.log(colorElements);
+    if(colorElements.length > 0)
+    {
+        destroyColorPalette();
+        return;
+    }
+    createColorPalette();
 });
 
 const rainbowButton = document.querySelector(".rainbow-button");
